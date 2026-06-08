@@ -30,3 +30,5 @@ renamed as (
 )
 
 select * from renamed
+
+{{config(materialized='table')}}
