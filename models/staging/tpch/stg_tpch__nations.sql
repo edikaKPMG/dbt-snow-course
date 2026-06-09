@@ -7,7 +7,7 @@
 with
 
 source as (
-    select * from {{ ref('nation') }}
+    select * from {{ ref("nation_codes") }}
 ),
 
 renamed as (
@@ -16,7 +16,7 @@ renamed as (
         nation_name,
         region_key as region_id,
         region_name,
-        "comment" as nation_comment
+        comment as nation_comment
     from source
 )
 
