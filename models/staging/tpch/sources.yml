@@ -80,6 +80,77 @@ sources:
             description: Market segment the customer belongs to.
           - name: C_COMMENT
             description: Free-text comment.
+      # ── LINEITEM ────────────────────────────────────────────────────────────
+      
+      - name: lineitem
+        description: >
+          One row per order line item. Each order can have multiple line items.
+          This is the most granular table in TPC-H.
+
+        columns:
+          - name: L_ORDERKEY
+            description: Foreign key to ORDERS.O_ORDERKEY
+            tests:
+              - not_null
+              - relationships:
+                  to: source('tpch', 'orders')
+                  field: O_ORDERKEY
+
+          - name: L_PARTKEY
+            description: Foreign key to PART.P_PARTKEY
+            tests:
+              - not_null
+
+          - name: L_SUPPKEY
+            description: Foreign key to SUPPLIER.S_SUPPKEY
+            tests:
+              - not_null
+
+          - name: L_LINENUMBER
+            description: Position of this line within the order
+            tests:
+              - not_null
+
+          - name: L_QUANTITY
+            description: Quantity of parts ordered
+            tests:
+              - not_null
+
+          - name: L_EXTENDEDPRICE
+            description: Extended price
+            tests:
+              - not_null
+
+          - name: L_DISCOUNT
+            description: Discount fraction
+
+          - name: L_TAX
+            description: Tax fraction
+
+          - name: L_RETURNFLAG
+            description: Return flag code
+
+          - name: L_LINESTATUS
+            description: Line item status
+
+          - name: L_SHIPDATE
+            description: Ship date
+
+          - name: L_COMMITDATE
+            description: Commit date
+
+          - name: L_RECEIPTDATE
+            description: Receipt date
+
+          - name: L_SHIPINSTRUCT
+            description: Shipping instructions
+
+          - name: L_SHIPMODE
+            description: Shipping mode
+
+          - name: L_COMMENT
+            description: Free-text comment
+
 
       # ── NATION ──────────────────────────────────────────────────────────────
       - name: nation
