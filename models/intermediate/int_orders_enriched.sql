@@ -33,7 +33,7 @@ enriched as (
         -- Order attributes
         o.order_status_code,
         o.order_status,
-        o.order_total_price,
+        {{cents_to_dollars('order_total_price')}} as o.order_total_dollars
         o.order_date,
         o.order_priority,
         o.clerk_id,
@@ -54,6 +54,10 @@ enriched as (
         month(o.order_date)         as order_month,
         quarter(o.order_date)       as order_quarter,
         date_trunc('month', o.order_date)::date as order_month_start
+
+        --macros
+        {{cents_to_dollars('order_total_price')}} as order_total_dollars
+
 
     from orders       o
     left join customers c on o.customer_id  = c.customer_id
