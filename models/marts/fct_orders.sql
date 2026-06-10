@@ -41,7 +41,7 @@ lineitems_agg as (
 
 final as (
     select
-
+        {{ dbt_utils.generate_surrogate_key(['o.order_id']) }} as order_sk,
         -- Natural key
         o.order_id,
 
@@ -65,7 +65,7 @@ final as (
         o.order_month_start,
 
         -- Source metrics (from order header)
-        o.order_total_price,
+        order_total_dollars,
 
         -- Computed line-level rollups
         l.line_item_count,
@@ -92,6 +92,6 @@ final as (
 select * from final
 
 {% if is_incremental() %}
--- Only process orders placed after the latest order already in this table
-where order_date > (select max(order_date) from {{ this }})
+    -- Only process orders placed after the latest order already in this table
+    where order_date > (select max(order_date) from {{ this }})
 {% endif %}
