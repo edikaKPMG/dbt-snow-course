@@ -1,0 +1,15 @@
+version: 2
+
+models:
+  - name: fct_orders
+    columns:
+      - name: order_sk
+        tests:
+          - not_null
+          - unique:
+              store_failures: true
+
+      - name: order_id
+        tests:
+          - not_null
+          - unique
