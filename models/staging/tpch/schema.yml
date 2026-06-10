@@ -25,7 +25,7 @@ models:
           - accepted_values:
               values: ['O', 'F', 'P']
       - name: order_status
-        description: Human-readable status label decoded from order_status_code.
+        description: "{{ doc('order_status') }}"
         tests:
           - not_null
           - accepted_values:
@@ -55,6 +55,9 @@ models:
         description: Foreign key to stg_tpch__orders.order_id.
         tests:
           - not_null
+          - relationships:
+                to: ref('stg_tpch__orders')
+                field: order_id
       - name: line_number
         description: Position of this line within the order (1-indexed).
         tests: [not_null]
@@ -95,28 +98,40 @@ models:
       - name: line_comment
         description: Free-text comment from the source system.
 
-  # ── stg_tpch__customers ──────────────────────────────────────────────────
+# ── stg_tpch__customers ──────────────────────────────────────────────────
   - name: stg_tpch__customers
     description: none
     columns:
       - name: customer_id
-        description: none
+        description: Primary key of the customer.
+        tests:
+          - not_null
+          - unique
+
       - name: nation_id
         description: Foreign key to stg_tpch__nations.nation_id.
-        tests: [not_null]
+        tests:
+          - not_null
+
       - name: customer_name
         description: none
-        tests: [not_null]
+        tests:
+          - not_null
+
       - name: customer_address
         description: Mailing address.
+
       - name: customer_phone
         description: Contact phone number.
+
       - name: account_balance
         description: Current account balance.
+
       - name: market_segment
         description: none
-        tests: 
-            - accepted_values:
-                values: ['AUTOMOBILE','BUILDING','FURNITURE','HOUSEHOLD','MACHINERY']
+        tests:
+          - accepted_values:
+              values: ['AUTOMOBILE', 'BUILDING', 'FURNITURE', 'HOUSEHOLD', 'MACHINERY']
+
       - name: customer_comment
-        description: Free-text comment from source.
+
